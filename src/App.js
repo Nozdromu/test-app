@@ -1,7 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+axios.defaults.port = 3001;
 
 function App() {
+  const [ip, setip] = useState('')
+
+  useEffect(() => {
+    axios({
+      method: 'get',
+      port: 3001,
+      url: '/ip',
+      proxy: {
+        port: 3001
+      }
+    }).then((data) => {
+      console.log(data)
+      setip(data.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+    // axios.get('/ip').then((data) => {
+    //   console.log(data)
+    //   setip(data.data)
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
+  })
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +41,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          ip: {ip}
         </a>
       </header>
     </div>
